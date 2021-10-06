@@ -16,7 +16,7 @@ class Base(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
         self.win.set_clear_color((0,0,0,1))
-        self.font = loader.load_font('fonts/Sama.otf')
+        self.font = loader.load_font('fonts/Daemon_Full_Working.otf')
         self.font.set_render_mode(TextFont.RMSolid)
         base.cam.set_z(32)
         base.cam.look_at(render)
@@ -56,10 +56,10 @@ class Base(ShowBase):
     def make_glyph_rings(self):
         self.rings = []
         center = NodePath('center')
-        for r in range(32):
+        for r in range(16):
             ring = center.attach_new_node('ring_'+str(r))
-            for c in range(32):
-                ring.set_h(ring, 360/32)
+            for c in range(16):
+                ring.set_h(ring, 360/16)
                 glyph_text = TextNode('glyph_'+str(c))
                 glyph_text.font = self.font
                 glyph_text.text = choice('abcdefghijklmnopqrstuvwxyz')
@@ -70,7 +70,7 @@ class Base(ShowBase):
                 glyph_node.set_r(90*randint(0,4))
                 glyph_node.wrt_reparent_to(ring)
                 #glyph_node.flatten_strong()
-            ring.set_scale(r/math.pi)
+            ring.set_scale(math.sin(r/math.pi))
             self.rings.append(ring)
         center.reparent_to(render)
 
@@ -80,10 +80,11 @@ class Base(ShowBase):
         char_speed = 1000
         for r, ring in enumerate(self.rings):
             ring.set_h(ring, dt*ring_speed*r)
-            #ring.set_r(ring, dt*ring_speed*r)
+            ring.set_p(ring, dt*ring_speed*r)
+            ring.set_scale(16 - r)
             for c, char in enumerate(ring.get_children()):
-                char.set_h(ring,dt*char_speed*c)
-               #char.set_p(ring,dt*char_speed*c)
+                #char.set_h(ring,dt*char_speed*c)
+                char.set_r(ring, char_speed*r)
                 char.set_color(choice((
                     (1,0,0,1),
                     (1,1,0,1),

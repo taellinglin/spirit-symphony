@@ -13,6 +13,7 @@ from panda3d.core import AmbientLight
 
 class Base(ShowBase):
     colors = [(1,0,0,1), (0,1,1,1), (1,1,0,1), (1,0,1,1)]
+    clock = 0
     def __init__(self):
         ShowBase.__init__(self)
         self.win.set_clear_color((0,0,0,1))
@@ -23,7 +24,7 @@ class Base(ShowBase):
 
         self.make_glyph_rings()
         self.setup_light()
-        self.setup_motion_blur()
+        #self.setup_motion_blur()
         taskMgr.add(self.update)
 
         self.accept('escape', sys.exit)
@@ -56,6 +57,7 @@ class Base(ShowBase):
     def make_glyph_rings(self):
         self.rings = []
         center = NodePath('center')
+
         for r in range(16):
             ring = center.attach_new_node('ring_'+str(r))
             for c in range(16):
@@ -66,32 +68,36 @@ class Base(ShowBase):
                 glyph_node = render.attach_new_node(glyph_text)
                 glyph_node.set_y(math.pi)
                 glyph_node.set_sy(0.1)
-                glyph_node.set_p(-90) # Flip up
-                glyph_node.set_r(90*randint(0,4))
+                glyph_node.set_p(90) # Flip up
+                glyph_node.set_two_sided(1)
+                #glyph_node.set_r(90*randint(0,4))
                 glyph_node.wrt_reparent_to(ring)
-                #glyph_node.flatten_strong()
-            ring.set_scale(math.sin(r/math.pi))
+                glyph_node.flatten_strong()
+            ring.set_scale(math.sin(r))
             self.rings.append(ring)
         center.reparent_to(render)
 
     def update(self, task):
         dt = globalClock.get_dt()
-        ring_speed = 5
-        char_speed = 1000
+        ring_speed = 0.01
+        self.clock += 1
+        char_speed = 1
+        base.cam.look_at(render)
         for r, ring in enumerate(self.rings):
-            ring.set_h(ring, dt*ring_speed*r)
-            ring.set_p(ring, dt*ring_speed*r)
-            ring.set_scale(16 - r)
+            ring.set_h(ring, ring_speed*r)
+            ring.set_p(ring, ring_speed*r)
+            ring.set_scale(2 - r)
             for c, char in enumerate(ring.get_children()):
                 #char.set_h(ring,dt*char_speed*c)
                 char.set_r(ring, char_speed*r)
                 char.set_color(choice((
-                    (1,0,0,1),
+                   # (1,0,0,1),
                     (1,1,0,1),
-                    (0,1,0,1),
-                    (0,0,1,1),
+                   # (0,1,0,1),
+                   # (0,0,1,1),
                     (0,1,1,1),
                     (1,0,1,1),
+                    (1,0,0,1)
                 )))
         return task.cont
 

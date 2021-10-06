@@ -1,3 +1,4 @@
+import sys
 import math
 from random import randint, choice
 from direct.showbase.ShowBase import ShowBase
@@ -24,6 +25,9 @@ class Base(ShowBase):
         self.setup_light()
         self.setup_motion_blur()
         taskMgr.add(self.update)
+
+        self.accept('escape', sys.exit)
+        self.accept('f11', self.drop_to_pdb)
 
     def setup_motion_blur(self):
         base.win.set_clear_color_active(False)
@@ -89,6 +93,10 @@ class Base(ShowBase):
                     (1,0,1,1),
                 )))
         return task.cont
+
+    def drop_to_pdb(self):
+        import pdb; pdb.set_trace()
+
 
 base = Base()
 base.run()

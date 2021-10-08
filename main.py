@@ -2,11 +2,14 @@ import sys
 import math
 from random import randint, choice
 from direct.showbase.ShowBase import ShowBase
+from direct.gui.DirectGui import *
 
 from panda3d.core import CardMaker
 from panda3d.core import TextFont
 from panda3d.core import DirectionalLight
 from panda3d.core import AmbientLight
+
+
 
 import bgm
 from glyphRings import GlyphRings
@@ -99,5 +102,10 @@ music = [
     base.loader.loadSfx("music/Womper.ogg"),
     base.loader.loadSfx("music/YouMightBeRight.ogg")
 ]
+sfx = [
+    base.loader.loadSfx("audio/soul-symphony.wav")
+]
+base.playSfx(sfx[0],0,1, None, 0)
 base.playMusic(music[0],1,1,None,0)
+DirectFrame(frameSize = (0,0,1920,1080), frameColor = (0,0,0,0))
 base.run()

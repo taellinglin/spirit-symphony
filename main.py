@@ -37,12 +37,12 @@ class Base(ShowBase):
         base.win.set_clear_color_active(False)
         cardmaker = CardMaker('background')
         cardmaker.set_frame(-0.5,0.5,-0.5,0.5)
-        bg = render.attach_new_node(cardmaker.generate())
-        bg.set_p(-90)
+        bg = base.cam.attach_new_node(cardmaker.generate())
+        bg.set_y(512)
         bg.set_transparency(True)
         bg.set_color((0,0,0,0.05))
         bg.set_scale(20000)
-        bg.set_z(-512)
+       #bg.set_z(-512)
 
     def setup_light(self):
         sun = DirectionalLight('sun')

@@ -1,18 +1,15 @@
 import sys
 import math
-from random import randint, choice
+
 from direct.showbase.ShowBase import ShowBase
 from direct.gui.OnscreenImage import OnscreenImage
 
 from panda3d.core import TransparencyAttrib
 from panda3d.core import CardMaker
-from panda3d.core import DirectionalLight
-from panda3d.core import AmbientLight
-
 
 from bgm import BGM
-from glyphRings import GlyphRings
-
+from glyph_rings import GlyphRings
+from motion_blur import MotionBlur
 
 class Base(ShowBase):
     def __init__(self):
@@ -26,37 +23,11 @@ class Base(ShowBase):
 
         self.glyph_rings = GlyphRings(font=loader.load_font('fonts/Daemon_Full_Working.otf'))
         self.bgm = BGM()
+        self.motion_blur = MotionBlur()
 
-        self.setup_light()
-        self.setup_motion_blur()
         taskMgr.add(self.update)
-
         self.accept('escape', sys.exit)
         self.accept('f11', self.drop_to_pdb)
-
-    def setup_motion_blur(self):
-        base.win.set_clear_color_active(False)
-        cardmaker = CardMaker('background')
-        cardmaker.set_frame(-0.5,0.5,-0.5,0.5)
-        bg = base.cam.attach_new_node(cardmaker.generate())
-        bg.set_y(512)
-        bg.set_transparency(True)
-        bg.set_color((0,0,0,0.05))
-        bg.set_scale(20000)
-       #bg.set_z(-512)
-
-    def setup_light(self):
-        sun = DirectionalLight('sun')
-        sun.set_color((1,1,1,1))
-        sun_node = render.attach_new_node(sun)
-        sun_node.look_at((1,0,-1))
-
-        moon = AmbientLight('moon')
-        moon.set_color((0.6,0.6,0.6,1))
-        moon_node = render.attach_new_node(moon)
-
-        render.set_light(sun_node)
-        render.set_light(moon_node)
 
     def logo(self):
         logo = CardMaker('logo')

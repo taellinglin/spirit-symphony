@@ -2,6 +2,8 @@ import math
 from panda3d.core import TextFont
 from panda3d.core import NodePath
 from panda3d.core import TextNode
+from panda3d.core import DirectionalLight
+from panda3d.core import AmbientLight
 from random import randint, choice
 
 
@@ -33,8 +35,23 @@ class GlyphRings():
 
         self.colors = [(1,0,0,1), (0,1,1,1), (1,1,0,1), (1,0,1,1)]
         self.clock = 0
-        self.ring_speed = 0.01
-        self.char_speed = 1
+        self.ring_speed = 5
+        self.char_speed = 10
+
+        self.setup_light()
+
+    def setup_light(self):
+        sun = DirectionalLight('sun')
+        sun.set_color((1,1,1,1))
+        sun_node = render.attach_new_node(sun)
+        sun_node.look_at((1,0,-1))
+
+        moon = AmbientLight('moon')
+        moon.set_color((0.6,0.6,0.6,1))
+        moon_node = render.attach_new_node(moon)
+
+        render.set_light(sun_node)
+        render.set_light(moon_node)
 
     def update(self, dt):
         self.clock += dt

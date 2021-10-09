@@ -24,6 +24,8 @@ class Base(ShowBase):
         self.font.set_render_mode(TextFont.RMSolid)
         base.cam.set_z(128)
         base.cam.look_at(render)
+        self.logo()
+        self.press_start()
 
         GlyphRings.make_glyph_rings(self)
         self.setup_light()
@@ -57,7 +59,21 @@ class Base(ShowBase):
         render.set_light(sun_node)
         render.set_light(moon_node)
 
-   
+    def logo(self):
+        logo = CardMaker('logo')
+        logo.set_frame(0 ,0 ,1,1)
+        imageObject = OnscreenImage(image='graphics/SoulSymphonyLogo.png', pos=(-0.2, 1, 0.5), scale=(1,0.5,0.5))
+        imageObject.setTransparency(TransparencyAttrib.MAlpha)
+        bg2 = render.attach_new_node(logo.generate())
+
+    def press_start(self):
+        press_start = loader.loadModel("models/press_start.bam")
+        press_start.set_p(90)
+        press_start.set_x(-0.5)
+        press_start.set_y(-3)
+        press_start.set_z(-0.5)
+        press_start.set_scale(0.2,0.2,1)
+        press_start.reparent_to(base.cam2d)
 
     def update(self, task):
         dt = globalClock.get_dt()
@@ -109,13 +125,6 @@ sfx = [
 
 base.playSfx(sfx[0],0,1, None, 0)
 base.playMusic(music[randint(0, 12)],1,1,None,0)
-logo = CardMaker('logo')
-logo.set_frame(0 ,0 ,1,1)
-imageObject = OnscreenImage(image='graphics/SoulSymphonyLogo.png', pos=(-0.2, 1, 0.5), scale=(1,0.5,0.5))
-imageObject.setTransparency(TransparencyAttrib.MAlpha)
-
-bg2 = render.attach_new_node(logo.generate())
-
 
 
 base.run()

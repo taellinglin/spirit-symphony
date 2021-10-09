@@ -1,17 +1,21 @@
 import math
-from direct.showbase.ShowBase import ShowBase
+from panda3d.core import TextFont
 from panda3d.core import NodePath
 from panda3d.core import TextNode
 from random import randint, choice
-class GlyphRings(ShowBase):
-    def make_glyph_rings(self):
-        self.rings = []
-        center = NodePath('center')
 
-        for r in range(16):
-            ring = center.attach_new_node('ring_'+str(r))
-            for c in range(16):
-                ring.set_h(ring, 360/16)
+
+class GlyphRings():
+    def __init__(self, font, number_of_rings=16, characters_in_ring=16):
+        self.font = font
+        self.font.set_render_mode(TextFont.RMSolid)
+
+        self.rings = []
+        self.center = NodePath('center')
+        for r in range(number_of_rings):
+            ring = self.center.attach_new_node('ring_'+str(r))
+            for c in range(characters_in_ring):
+                ring.set_h(ring, 360/characters_in_ring)
                 glyph_text = TextNode('glyph_'+str(c))
                 glyph_text.font = self.font
                 glyph_text.text = choice('abcdefghijklmnopqrstuvwxyz')
@@ -23,6 +27,21 @@ class GlyphRings(ShowBase):
                 #glyph_node.set_r(90*randint(0,4))
                 glyph_node.wrt_reparent_to(ring)
                 glyph_node.flatten_strong()
-            ring.set_scale(math.sin(r))
+            ring.set_scale(16-r)
             self.rings.append(ring)
-        center.reparent_to(render)
+        self.center.reparent_to(render)
+
+        self.colors = [(1,0,0,1), (0,1,1,1), (1,1,0,1), (1,0,1,1)]
+        self.clock = 0
+        self.ring_speed = 0.01
+        self.char_speed = 1
+
+    def update(self, dt):
+        self.clock += dt
+        for r, ring in enumerate(self.rings):
+            ring.set_h(ring, self.ring_speed*r*dt)
+            ring.set_p(ring, self.ring_speed*r*dt)
+            for c, char in enumerate(ring.get_children()):
+                #char.set_h(ring,dt*self.char_speed*c)
+                char.set_r(ring, self.char_speed*r*dt)
+                char.set_color(choice(self.colors))

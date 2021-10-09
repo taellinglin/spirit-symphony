@@ -10,7 +10,7 @@ from panda3d.core import DirectionalLight
 from panda3d.core import AmbientLight
 
 
-import bgm
+from bgm import BGM
 from glyphRings import GlyphRings
 
 
@@ -25,6 +25,7 @@ class Base(ShowBase):
         self.press_start()
 
         self.glyph_rings = GlyphRings(font=loader.load_font('fonts/Daemon_Full_Working.otf'))
+        self.bgm = BGM()
 
         self.setup_light()
         self.setup_motion_blur()
@@ -85,27 +86,4 @@ class Base(ShowBase):
 
 
 base = Base()
-music = [
-    base.loader.loadSfx("music/Flag.ogg"),
-    base.loader.loadSfx("music/Excellent.ogg"),
-    base.loader.loadSfx("music/FlagTracker.ogg"),
-    base.loader.loadSfx("music/HallofSunrise.ogg"),
-    base.loader.loadSfx("music/NotaGoodbye.ogg"),
-    base.loader.loadSfx("music/SpaceField.ogg"),
-    base.loader.loadSfx("music/StarlightVocals.ogg"),
-    base.loader.loadSfx("music/Trich.ogg"),
-    base.loader.loadSfx("music/WalkThePath.ogg"),
-    base.loader.loadSfx("music/Whisper.ogg"),
-    base.loader.loadSfx("music/WishingWell.ogg"),
-    base.loader.loadSfx("music/Womper.ogg"),
-    base.loader.loadSfx("music/YouMightBeRight.ogg")
-]
-sfx = [
-    base.loader.loadSfx("audio/soul-symphony.wav")
-]
-
-base.playSfx(sfx[0],0,1, None, 0)
-base.playMusic(music[randint(0, 12)],1,1,None,0)
-
-
 base.run()

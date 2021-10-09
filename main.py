@@ -20,6 +20,7 @@ class Base(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
         self.win.set_clear_color((0,0,0,1))
+        self.disable_mouse()
         self.font = loader.load_font('fonts/Daemon_Full_Working.otf')
         self.font.set_render_mode(TextFont.RMSolid)
         base.cam.set_z(128)
@@ -57,7 +58,7 @@ class Base(ShowBase):
         render.set_light(sun_node)
         render.set_light(moon_node)
 
-   
+
 
     def update(self, task):
         dt = globalClock.get_dt()
@@ -81,6 +82,10 @@ class Base(ShowBase):
                     (1,0,1,1),
                     (1,0,0,1)
                 )))
+
+        base.camera.set_hpr(base.camera, (0.01, 1, 0.5))
+
+
         return task.cont
 
     def drop_to_pdb(self):

@@ -2,8 +2,9 @@ import sys
 import math
 from random import randint, choice
 from direct.showbase.ShowBase import ShowBase
+from direct.gui.OnscreenImage import OnscreenImage
 
-
+from panda3d.core import TransparencyAttrib
 from panda3d.core import CardMaker
 from panda3d.core import TextFont
 from panda3d.core import DirectionalLight
@@ -21,12 +22,12 @@ class Base(ShowBase):
         self.win.set_clear_color((0,0,0,1))
         self.font = loader.load_font('fonts/Daemon_Full_Working.otf')
         self.font.set_render_mode(TextFont.RMSolid)
-        base.cam.set_z(32)
+        base.cam.set_z(128)
         base.cam.look_at(render)
 
         GlyphRings.make_glyph_rings(self)
         self.setup_light()
-        #self.setup_motion_blur()
+        self.setup_motion_blur()
         taskMgr.add(self.update)
 
         self.accept('escape', sys.exit)
@@ -39,7 +40,7 @@ class Base(ShowBase):
         bg = render.attach_new_node(cardmaker.generate())
         bg.set_p(-90)
         bg.set_transparency(True)
-        bg.set_color((0,0,0,0.6))
+        bg.set_color((0,0,0,0.05))
         bg.set_scale(20000)
         bg.set_z(-512)
 
@@ -108,5 +109,13 @@ sfx = [
 
 base.playSfx(sfx[0],0,1, None, 0)
 base.playMusic(music[randint(0, 12)],1,1,None,0)
+logo = CardMaker('logo')
+logo.set_frame(0 ,0 ,1,1)
+imageObject = OnscreenImage(image='graphics/SoulSymphonyLogo.png', pos=(-0.2, 1, 0.5), scale=(1,0.5,0.5))
+imageObject.setTransparency(TransparencyAttrib.MAlpha)
+
+bg2 = render.attach_new_node(logo.generate())
+
+
 
 base.run()

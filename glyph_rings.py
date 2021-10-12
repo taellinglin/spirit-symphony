@@ -20,13 +20,13 @@ class GlyphRings():
                 ring.set_h(ring, 360/characters_in_ring)
                 glyph_text = TextNode('glyph_'+str(c))
                 glyph_text.font = self.font
-                glyph_text.text = choice('abcdefghijklmnopqrstuvwxyz')
+                glyph_text.text = choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
                 glyph_node = render.attach_new_node(glyph_text)
                 glyph_node.set_y(math.pi)
-                glyph_node.set_sy(0.1)
+                glyph_node.set_sy(0.05)
                 glyph_node.set_p(90) # Flip up
                 glyph_node.set_two_sided(1)
-                #glyph_node.set_r(90*randint(0,4))
+                glyph_node.set_r(90*randint(0,4))
                 glyph_node.wrt_reparent_to(ring)
                 glyph_node.flatten_strong()
             ring.set_scale(16-r)
@@ -35,8 +35,8 @@ class GlyphRings():
 
         self.colors = [(1,0,0,1), (0,1,1,1), (1,1,0,1), (1,0,1,1)]
         self.clock = 0
-        self.ring_speed = 5
-        self.char_speed = 10
+        self.ring_speed = 1
+        self.char_speed = 0.01
 
         self.setup_light()
 
@@ -54,11 +54,11 @@ class GlyphRings():
         render.set_light(moon_node)
 
     def update(self, dt):
-        self.clock += dt
+        self.clock = dt
         for r, ring in enumerate(self.rings):
             ring.set_h(ring, self.ring_speed*r*dt)
             ring.set_p(ring, self.ring_speed*r*dt)
             for c, char in enumerate(ring.get_children()):
-                #char.set_h(ring,dt*self.char_speed*c)
+                char.set_h(ring,dt*self.char_speed*c)
                 char.set_r(ring, self.char_speed*r*dt)
                 char.set_color(choice(self.colors))

@@ -26,7 +26,7 @@ class TitleScreen():
         pass
 
     def enter(self, data):
-        base.cam.set_z(128)
+        base.cam.set_z(256)
         base.cam.look_at(render)
         self.logo()
         self.press_start()

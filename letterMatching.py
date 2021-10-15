@@ -18,14 +18,19 @@ class LetterMatching(Stage):
         self.show_letter()
         base.task_mgr.add(self.update)
         base.accept('escape', sys.exit)
-        base.accept('enter', self.next_letter())
+        base.accept('enter', self.next_letter)
 
     def text_begin(self):
         text_begin = base.loader.loadModel("models/text_begin.bam")
         text_begin.set_p(90)
         text_begin.reparent_to(render)
     
-    def show_letter(self, letter = str(choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')), font = base.loader.load_font('fonts/Daemon.otf')):
+    def show_letter(self, letter = None, font = None):
+        if letter == None:
+            letter = str(choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'))
+        if font == None:
+            base.loader.load_font('fonts/konnarian/Daemon.otf')
+
         self.letter = TextNode('glyph_'+letter)
         self.font = font
         self.letter.text = letter
@@ -33,9 +38,14 @@ class LetterMatching(Stage):
         self.letterbox = render.attach_new_node(self.letter)
         self.letterbox.set_scale(5,5,5)
 
-    def next_letter(self, letter = str(choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')), font = base.loader.load_font('fonts/Daemon.otf')):
+    def next_letter(self, letter = None, font = None):
         if self.letterbox:
             self.letterbox.detachNode()
+        if letter == None:
+            letter = str(choice('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'))
+        if font == None:
+            base.loader.load_font('fonts/konnarian/Daemon.otf')
+            
         self.letter = TextNode('glyph_'+letter)
         self.font = font
         self.letter.text = letter

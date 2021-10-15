@@ -1,3 +1,4 @@
+import sys
 from panda3d.core import TransparencyAttrib
 from panda3d.core import CardMaker
 
@@ -20,7 +21,7 @@ class TitleScreen(Stage):
         base.cam.look_at(render)
         self.logo()
         self.press_start()
-        self.glyph_rings = GlyphRings(font=base.loader.load_font('fonts/Daemon.otf'))
+        self.glyph_rings = GlyphRings(font=base.loader.load_font('fonts/konnarian/Daemon.otf'))
         self.bgm = BGM()
         self.motion_blur = MotionBlur()
         base.task_mgr.add(self.update)

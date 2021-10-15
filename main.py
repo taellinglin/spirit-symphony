@@ -1,12 +1,12 @@
 import sys
 import math
 from direct import showbase
-
+from letterMatching import LetterMatching
+from titleScreen import TitleScreen
 from direct.showbase.ShowBase import ShowBase
 from stageflow import Flow
 from stageflow.panda3d import Panda3DSplash
-from letterMatching import LetterMatching
-from titleScreen import TitleScreen
+
 from stageflow.prefab import Quit
 
 class Base(ShowBase):

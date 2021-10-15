@@ -40,11 +40,11 @@ class TitleScreen(Stage):
         base.accept('escape', sys.exit)
 
     def logo(self):
-        logo = CardMaker('logo')
-        logo.set_frame(0 ,0 ,1,1)
+        self.logo = CardMaker('logo')
+        self.logo.set_frame(0 ,0 ,1,1)
         self.imageObject = OnscreenImage(image='graphics/SoulSymphonyLogo.png', pos=(-0.2, 1, 0.5), scale=(1,0.5,0.5))
         self.imageObject.setTransparency(TransparencyAttrib.MAlpha)
-        self.bg2 = render.attach_new_node(logo.generate())
+        self.bg2 = render.attach_new_node(self.logo.generate())
 
     def press_start(self):
         press_start = base.loader.loadModel("models/press_start.bam")
@@ -53,7 +53,8 @@ class TitleScreen(Stage):
         press_start.set_y(-3)
         press_start.set_z(-0.7)
         press_start.set_scale(0.15,0.15,0.75)
-        self.subtitle = press_start.reparent_to(base.cam2d)
+        press_start.reparent_to(base.cam2d)
+        self.subtitle = press_start
 
     def torus(self):
         press_start = base.loader.loadModel("models/torus.bam")
@@ -74,8 +75,9 @@ class TitleScreen(Stage):
 
     def exit(self, data):
         self.subtitle.detachNode()
-        self.glyph_rings.detachNode()
+        self.glyph_rings.center.detachNode()
         self.bg2.detachNode()
+        self.imageObject.detachNode()
         return data
 
 class Base(ShowBase):

@@ -19,7 +19,7 @@ class LetterMatching(Stage):
 
     def text_begin(self):
         text_begin = base.loader.loadModel("models/text_begin.bam")
-        #text_begin.set_p(90)
+        text_begin.set_p(90)
         #text_begin.set_x(-0.55)
         #text_begin.set_y(-3)
         #press_start.set_z(-0.7)

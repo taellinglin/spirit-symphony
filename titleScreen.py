@@ -23,6 +23,8 @@ class TitleScreen(Stage):
         self.press_start()
         self.glyph_rings = GlyphRings(font=base.loader.load_font('fonts/konnarian/Daemon.otf'))
         self.bgm = BGM()
+        self.bgm.playMusic()
+        self.bgm.playSfx('soul-symphony')
         self.motion_blur = MotionBlur()
         base.task_mgr.add(self.update)
         base.accept('escape', sys.exit)
@@ -66,4 +68,5 @@ class TitleScreen(Stage):
         self.glyph_rings.center.detachNode()
         self.bg2.detachNode()
         self.imageObject.detachNode()
+        self.bgm.stopMusic()
         return data

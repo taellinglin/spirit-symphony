@@ -19,6 +19,7 @@ class Base(ShowBase):
 
 
 base = Base()
+base.disable_mouse()
 base.flow = Flow(
     stages=dict(
         splash=Panda3DSplash(exit_stage='title_screen'),

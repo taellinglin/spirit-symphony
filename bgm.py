@@ -3,23 +3,43 @@ from random import choice
 
 class BGM():
     def __init__(self):
-        songs = [
+        self.songs = [
             'Flag', 'Excellent', 'FlagTracker', 'HallofSunrise',
-            'NotaGoodbye', 'SpaceField', 'StarlightVocals',
+            'NightDrive', 'SpaceField', 'StarlightVocals',
             'Trich', 'WalkThePath', 'Whisper', 'WishingWell', 'Womper',
-            'YouMightBeRight'
+            'YouMightBeRight', 'The_Spirit_Flag_Instrumental', 'Through_my_Heart_Instrumental', 'Today2'
         ]
 
         self.music = {}
-        for song in songs:
+        for song in self.songs:
             self.music[song] = base.loader.load_sfx("music/{}.ogg".format(song))
 
-        sfx = [
+        sfx_names = [
             'soul-symphony'
         ]
         self.sfx = {}
-        for s in sfx:
+        for s in sfx_names:
             self.sfx[s] = base.loader.load_sfx("audio/{}.wav".format(s))
 
-        base.playSfx(self.sfx['soul-symphony'])
-        base.playMusic(self.music[choice(songs)], 1, 1, None, 0)
+        self.current_sfx = self.sfx['soul-symphony']
+        #base.playSfx(self.current_sfx)
+        self.current_music = self.music[choice(self.songs)]
+        #base.playMusic(self.current_music, 1, 1, None, 0)
+            
+        
+    def playMusic(self, track = None):
+        print(self.current_music.status)
+        if track == None:
+            track = self.music[choice(self.songs)]
+        self.current_music.play()
+        
+    def stopMusic(self):
+        #if (self.current_music.status()== 2):
+        self.current_music.stop()
+            
+    def playSfx(self, sfx = None):
+        if sfx == None:
+            print("No sfx provided.")
+            return
+        self.current_sfx = self.sfx[sfx]
+        self.current_sfx.play()

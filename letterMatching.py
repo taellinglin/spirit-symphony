@@ -24,7 +24,7 @@ class LetterMatching(Stage):
         base.cam.look_at(render)
         self.text_begin()
         self.show_letter()
-        #self.load_room()
+        self.load_room()
         self.show_score()
         base.camera.set_hpr(self.caption, 0,0,0)
         base.task_mgr.add(self.update)
@@ -188,7 +188,7 @@ class LetterMatching(Stage):
         self.letterbox.detachNode()
         self.caption.detachNode()
         self.scorebox.detachNode()
-        #self.room.detachNode()
+        self.room.detachNode()
         self.bgm.stopMusic()
         base.taskMgr.remove('update')
         return data

@@ -25,8 +25,9 @@ base.flow = Flow(
         splash=Panda3DSplash(exit_stage='title_screen'),
         title_screen=TitleScreen(exit_stage='letter_matching'),
         letter_matching=LetterMatching(exit_stage='quit'),
+        
         quit=Quit()
     ),
-    initial_stage = 'splash',
+    initial_stage = 'title_screen',
 )
 base.run()

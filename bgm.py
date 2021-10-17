@@ -15,7 +15,9 @@ class BGM():
             self.music[song] = base.loader.load_sfx("music/{}.ogg".format(song))
 
         sfx_names = [
-            'soul-symphony'
+            'soul-symphony',
+            'correct_guess',
+            'incorrect_guess',
         ]
         self.sfx = {}
         for s in sfx_names:
@@ -27,11 +29,13 @@ class BGM():
         #base.playMusic(self.current_music, 1, 1, None, 0)
             
         
-    def playMusic(self, track = None):
+    def playMusic(self, track = None, loop = True):
         print(self.current_music.status)
         if track == None:
             track = self.music[choice(self.songs)]
+        self.current_music.setLoop(loop)
         self.current_music.play()
+        
         
     def stopMusic(self):
         #if (self.current_music.status()== 2):
@@ -43,3 +47,4 @@ class BGM():
             return
         self.current_sfx = self.sfx[sfx]
         self.current_sfx.play()
+        

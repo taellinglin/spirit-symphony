@@ -16,19 +16,22 @@ class TitleScreen(Stage):
 
     def enter(self, data):
         self.data = data
-        base.accept("enter", base.flow.transition, [self.exit_stage])
+        base.accept("enter", self.transition, [self.exit_stage])
         base.cam.set_z(256)
         base.cam.look_at(render)
         self.logo()
         self.press_start()
         self.glyph_rings = GlyphRings(font=base.loader.load_font('fonts/konnarian/Daemon.otf'))
         self.bgm = BGM()
-        self.bgm.playMusic()
+        self.bgm.playMusic(None, True)
         self.bgm.playSfx('soul-symphony')
         self.motion_blur = MotionBlur()
-        base.task_mgr.add(self.update)
+        base.task_mgr.add(self.update, 'update')
         base.accept('escape', sys.exit)
-
+    
+    def transition(self, exit_stage):
+        base.flow.transition(self.exit_stage)
+        
     def logo(self):
         self.logo = CardMaker('logo')
         self.logo.set_frame(0 ,0 ,1,1)
@@ -69,4 +72,5 @@ class TitleScreen(Stage):
         self.bg2.detachNode()
         self.imageObject.detachNode()
         self.bgm.stopMusic()
+        base.taskMgr.remove('update')
         return data

@@ -14,6 +14,7 @@ class LetterMatching(Stage):
         self.exit_stage = exit_stage
         self.colors = [(1,0,0,1), (0,1,1,1), (1,1,0,1), (1,0,1,1)]
         self.player_score = 0
+        self.score_goal = 5
 
     def enter(self, data):
         base.cam.set_hpr(render, (0,0,0))
@@ -23,7 +24,7 @@ class LetterMatching(Stage):
         base.cam.look_at(render)
         self.text_begin()
         self.show_letter()
-        self.load_room()
+        #self.load_room()
         self.show_score()
         base.camera.set_hpr(self.caption, 0,0,0)
         base.task_mgr.add(self.update)
@@ -144,6 +145,8 @@ class LetterMatching(Stage):
             print(self.letter)
             self.bgm.playSfx('correct_guess')
             self.next_letter()
+            if (self.player_score >= self.score_goal):
+                self.transition('intro')
             
         else:
             self.player_score -= 1
@@ -153,7 +156,13 @@ class LetterMatching(Stage):
             self.bgm.playSfx('incorrect_guess')
             self.next_letter()
             
-
+    def transition(self, exit_stage):
+        if exit_stage == None:
+            self.exit_stage = 'main_menu'
+        else:
+            self.exit_stage = exit_stage
+        base.flow.transition(self.exit_stage)
+        
     def update(self, task):
         self.score.text = str(self.player_score)
         self.scorebox.set_color(choice(self.colors))
@@ -174,3 +183,12 @@ class LetterMatching(Stage):
             #char.set_y(render, 0.05)
             char.set_color(choice(self.colors))
         return task.cont
+    
+    def exit(self, data):
+        self.letterbox.detachNode()
+        self.caption.detachNode()
+        self.scorebox.detachNode()
+        #self.room.detachNode()
+        self.bgm.stopMusic()
+        base.taskMgr.remove('update')
+        return data

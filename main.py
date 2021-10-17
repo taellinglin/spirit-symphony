@@ -3,6 +3,8 @@ import math
 from direct import showbase
 from letterMatching import LetterMatching
 from titleScreen import TitleScreen
+from room00 import Room00
+from intro import Intro
 from direct.showbase.ShowBase import ShowBase
 from stageflow import Flow
 from stageflow.panda3d import Panda3DSplash
@@ -24,8 +26,9 @@ base.flow = Flow(
     stages=dict(
         splash=Panda3DSplash(exit_stage='title_screen'),
         title_screen=TitleScreen(exit_stage='letter_matching'),
-        letter_matching=LetterMatching(exit_stage='quit'),
-        
+        letter_matching=LetterMatching(exit_stage='intro'),
+        intro=Intro(exit_stage='room00'),
+        room00=Room00(exit_stage='quit'),
         quit=Quit()
     ),
     initial_stage = 'title_screen',
